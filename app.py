@@ -12,12 +12,13 @@ from pytube import YouTube
 from werkzeug.utils import secure_filename
 import PyPDF2
 from pptx import Presentation
+import tempfile
 
 # Configure Gemini API
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-# Directory to store images
-temp_dir = Path("temp_images")
+# Use temporary directory for file operations
+temp_dir = tempfile.gettempdir()
 
 # Remove old images safely
 try:
@@ -28,6 +29,7 @@ except Exception as e:
     print(f"Warning: Could not delete temp_images - {e}")
 
 # Recreate directory
+temp_dir = Path(temp_dir)
 temp_dir.mkdir(exist_ok=True)
 
 # Improved prompt with structured format
@@ -97,8 +99,9 @@ You are an educational content summarizer designed for engineering students. Ana
 Please analyze and summarize the following content:
 """
 
+# Create Flask app
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Secret key for session management
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
 
 # Add this custom filter after creating the Flask app
 @app.template_filter('format_content')
