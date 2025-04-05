@@ -22,7 +22,6 @@
   ],
   "env": {
     "PYTHONPATH": ".",
-    "FLASK_APP": "api/index.py",
-    "FLASK_ENV": "production"
+    "FLASK_DEBUG": "0"
   }
 } 
