@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Content Summarizer</h1>
+        
+        <div class="selection-buttons">
+            <button class="select-btn youtube-btn" onclick="showForm('youtube')">
+                <span class="btn-icon">🎥</span>
+                <span class="btn-text">YouTube Video Summarizer</span>
+            </button>
+            <button class="select-btn document-btn" onclick="showForm('document')">
+                <span class="btn-icon">📄</span>
+                <span class="btn-text">PDF/PPT Summarizer</span>
+            </button>
+        </div>
+
+        <!-- YouTube Form -->
+        <div id="youtube-form" class="form-container" style="display: none;">
+            <h2>YouTube Video Summarizer</h2>
+            <form method="POST" action="{{ url_for('process_youtube') }}">
+                <div class="form-group">
+                    <label for="youtube_link">🎥 Enter YouTube Video Link:</label>
+                    <input type="text" id="youtube_link" name="youtube_link" required 
+                           placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+
+                <div class="form-group">
+                    <label for="prompt_option">🔄 Choose a prompt option:</label>
+                    <select id="prompt_option" name="prompt_option">
+                        <option value="default">Default: Get Detailed Notes</option>
+                        <option value="concise">Concise: 5-10 Key Points Summary</option>
+                        <option value="custom">Custom: Provide Your Own Prompt</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="custom_prompt_group">
+                    <label for="custom_prompt">✏️ Enter your custom prompt:</label>
+                    <textarea id="custom_prompt" name="custom_prompt" 
+                              rows="4" placeholder="Enter your custom instructions here..."></textarea>
+                </div>
+
+                <button type="submit">Generate Summary 📝</button>
+            </form>
+        </div>
+
+        <!-- Document Form -->
+        <div id="document-form" class="form-container" style="display: none;">
+            <h2>PDF/PPT Summarizer</h2>
+            <form method="POST" action="{{ url_for('process_document') }}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="document">📄 Select PDF or PPT File:</label>
+                    <input type="file" id="document" name="document" required 
+                           accept=".pdf,.ppt,.pptx">
+                </div>
+                <button type="submit">Generate Summary 📝</button>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html> 
